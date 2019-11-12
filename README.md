@@ -1,4 +1,4 @@
-# SilverMountain :Re:
+# Silver Mountain :Re:
 A C++ redo of Silver Mountain Py!
 
 The pygame framework of the original Silver Mountain became too slow to handle all the graphics,
