@@ -1,0 +1,7 @@
+{
+"void":         {"collision": true,  "sprites": ["None"],       "data": {}                                                                                  },
+"env_stone":    {"collision": true,  "sprites": ["env_stone"],  "data": {}                                                                                  },
+"env_ore":      {"sharedjson": "env_ore",                       "extradata": {}                                                                             },
+"rubyshards":   {"sharedjson": "ruby_shards_ore",               "extradata": {}                                                                             },
+"warp":         {"collision": false, "sprites": ["tile_warp"],  "data": {"destination":"test_map", "desc": "Warp to test map", "warp_x":16, "warp_y":16}    }
+}

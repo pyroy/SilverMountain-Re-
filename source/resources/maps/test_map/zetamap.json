@@ -1,0 +1,6 @@
+{
+"void":         {"collision": true,  "sprites": ["None"],       "data": {}                                                                          },
+"env_stone":    {"collision": true,  "sprites": ["env_stone"],  "data": {}                                                                          },
+"env_ore":      {"sharedjson": "env_ore", "extradata": {}                                                                                           },
+"warp":         {"collision": false, "sprites": ["tile_warp"],  "data": {"destination":"map_2", "desc": "Warp to map 2", "warp_x":16, "warp_y":16}  }
+}

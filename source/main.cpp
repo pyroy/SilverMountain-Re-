@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "game_classes.h"
+#include "maploader.h"
 #include "main.h"
 
 using namespace sf;
@@ -14,7 +15,9 @@ RenderWindow window(FS, "Silver Mountain :Re:", Style::Fullscreen);
 struct G_PARAMS gpm;
 struct G_PARAMS *GAME_PARAMS = &gpm;
 
-bool left_keypress, down_keypress, up_keypress, right_keypress = false;
+const int N_WALLS = 10;
+
+bool left_keypress = false, down_keypress = false, up_keypress = false, right_keypress = false;
 // -------------------------------- //
 
 // Returns an integer specifying what actions need to be taken base on the window events.
@@ -42,13 +45,16 @@ void setup() {
 
 }
 
+void draw_map(Maploader map) {
+	for (int i = 0; i < map.get_sprite_count(); i++) {
+		window.draw(map.get_sprite_at_index(i));
+	}
+}
+
 // Main game loop
 int main() {
 
 	setup();
-
-	Player			player_obj(GAME_PARAMS);
-	Wall			wall_obj(64.0, 64.0);
 
 	Texture			player_texture;	player_texture.loadFromFile("resources/sprites/idle.png");
 	Texture			wall_texture;	wall_texture.loadFromFile("resources/sprites/stone.png");
@@ -59,13 +65,24 @@ int main() {
 	Font			consolas_font;	consolas_font.loadFromFile("resources/font/consola.ttf");
 	Text			hello_text( "bruh moment", consolas_font );
 
+	Player			player_obj(player_sprite, GAME_PARAMS);
+	Wall			walls[N_WALLS] = {};
+
+	Maploader       map1("test_map", GAME_PARAMS);
+
+	for (int i = 0; i < N_WALLS; i++) {
+
+		walls[i].setup(wall_sprite, GAME_PARAMS);
+		walls[i].set_pos(64.0 + 32.0 * i, 64.0);
+
+	}
+
 	Clock			clock;
 	Time			time_elapsed;
 
 	while( window.isOpen() ) {
 
 		time_elapsed = clock.getElapsedTime();
-		wall_sprite.setPosition(wall_obj.x_pos, wall_obj.y_pos);
 
 		if (time_elapsed.asMilliseconds() > 1000.0 / GAME_PARAMS->TARGET_FPS) {
 
@@ -73,7 +90,9 @@ int main() {
 
 			// Handles all the events
 			switch (get_event_action()) {
-			case 1: window.close();
+				case 1: 
+					map1.texture_container.clear();
+					window.close();
 			}
 
 			// Gets all the keyboard inputs, needs to move to function
@@ -84,14 +103,22 @@ int main() {
 
 			// Updates player
 			player_obj.update(left_keypress, down_keypress, up_keypress, right_keypress);
-			player_sprite.setPosition(player_obj.x_pos, player_obj.y_pos);
+			player_obj.player_sprite.setPosition(player_obj.x_pos, player_obj.y_pos);
 
-			// Make all the graphics
+			//---===[Make all the graphics]===---
 			window.clear();
-			window.draw(player_sprite);
-			window.draw(wall_sprite);
+
+			draw_map(map1);
+			
+			for (int i = 0; i < N_WALLS; i++) {
+				window.draw(walls[i].wall_sprite);
+			}
+
+			window.draw(player_obj.player_sprite);
 			window.draw(hello_text);
+
 			window.display();
+			//-----------------------------------
 
 		} else {
 

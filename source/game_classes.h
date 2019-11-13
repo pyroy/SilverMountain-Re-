@@ -1,3 +1,6 @@
+#include <SFML/Graphics.hpp>
+using namespace sf;
+
 #ifndef GAME_CLASSES
 #define GAME_CLASSES
 
@@ -8,7 +11,13 @@ class Wall {
 		float x_pos;
 		float y_pos;
 
-		Wall(float x_p, float y_p);
+		struct G_PARAMS* GAME_PARAMS;
+		Sprite wall_sprite;
+
+		Wall();
+
+		void setup(Sprite P_SPRT, G_PARAMS* G_PRMSptr);
+		void set_pos(float x_p, float y_p);
 
 };
 
@@ -26,8 +35,9 @@ class Player {
 		float y_pos;
 
 		struct G_PARAMS* GAME_PARAMS;
+		Sprite player_sprite;
 
-		Player(struct G_PARAMS* G_PRMSptr);
+		Player(Sprite P_SPRT, G_PARAMS* G_PRMSptr);
 
 		void update(bool left_k, bool down_k, bool up_k, bool right_k);
 		void collide();

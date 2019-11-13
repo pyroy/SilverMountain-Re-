@@ -1,20 +1,38 @@
 #include "game_classes.h";
+#include <SFML/Graphics.hpp>
 #include "main.h";
 #include <iostream>
 
 using namespace std;
+using namespace sf;
 
-Wall::Wall(float x_p = 0.0, float y_p = 0.0) {
+Wall::Wall() {
+
+	x_pos = 0.0;
+	y_pos = 0.0;
 
 	cout << "Wall Class Initialized" << endl;
 
-	x_pos = x_p;
-	y_pos = y_p;
-
 };
 
+void Wall::setup(Sprite W_SPRT, G_PARAMS* G_PRMSptr) {
+
+	GAME_PARAMS = G_PRMSptr;
+	wall_sprite = W_SPRT;
+
+}
+
+void Wall::set_pos(float x_p, float y_p) {
+
+	x_pos = x_p * GAME_PARAMS -> H_SCALE;
+	y_pos = y_p * GAME_PARAMS -> V_SCALE;
+
+	wall_sprite.setPosition(x_pos, y_pos);
+
+}
+
 // Player class to control player movement
-Player::Player(struct G_PARAMS* G_PRMSptr) {
+Player::Player(Sprite P_SPRT, G_PARAMS* G_PRMSptr) {
 
 		facing_right = true;
 		mov_speed = 10.0;
@@ -26,6 +44,7 @@ Player::Player(struct G_PARAMS* G_PRMSptr) {
 		y_pos = 0.0;
 
 		GAME_PARAMS = G_PRMSptr;
+		player_sprite = P_SPRT;
 
 		cout << "Player Class Initialized" << endl;
 
