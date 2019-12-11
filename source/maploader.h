@@ -4,18 +4,40 @@
 #ifndef MAP_H
 #define MAP_H
 
+class Tile {
+
+public:
+	sf::Vector2i position;
+	int tile_type;
+	int max_minetime = 120;
+	int minetime = 0;
+
+	Tile(sf::Vector2i p, int t);
+	bool is_empty();
+
+};
+
 class Maploader {
 
 	public:
 
-		std::vector<sf::Texture> texture_container;
+		sf::RenderTexture map;
+		std::vector< std::vector<int> > bound_map;
+		std::vector< std::vector<Tile> > tile_map;
 
-		struct G_PARAMS* GAME_PARAMS;
+		sf::RectangleShape empty;
+		sf::RenderStates blend_mode_empty;
 
-		Maploader(std::string filepath, struct G_PARAMS* G_PRMSptr);
+		int OOB_x;
+		int OOB_y;
 
-		int get_sprite_count();
-		sf::Sprite get_sprite_at_index(int index);
+		float tile_size = 32.0;
+
+		class Game* GAME;
+
+		Maploader(std::string f, Game* g);
+		Tile* get_tile_at(sf::Vector2f);
+		void remove_tile_at(sf::Vector2i);
 
 };
 

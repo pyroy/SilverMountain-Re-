@@ -1,25 +1,10 @@
 #include <SFML/Graphics.hpp>
+#include "item_container.h"
+#include "main.h"
 using namespace sf;
 
 #ifndef GAME_CLASSES
 #define GAME_CLASSES
-
-class Wall {
-
-	public:
-
-		float x_pos;
-		float y_pos;
-
-		struct G_PARAMS* GAME_PARAMS;
-		Sprite wall_sprite;
-
-		Wall();
-
-		void setup(Sprite P_SPRT, G_PARAMS* G_PRMSptr);
-		void set_pos(float x_p, float y_p);
-
-};
 
 class Player {
 
@@ -28,22 +13,26 @@ class Player {
 		bool facing_right;
 
 		float mov_speed;
-		float x_vel;
-		float y_vel;
 
 		float x_pos;
 		float y_pos;
 
-		struct G_PARAMS* GAME_PARAMS;
+		ItemContainer inventory;
+
+		Game* GAME;
 		Sprite player_sprite;
 
-		Player(Sprite P_SPRT, G_PARAMS* G_PRMSptr);
+		std::vector<std::vector<int>> boundmap;
+		int OOB_x;
+		int OOB_y;
 
-		void update(bool left_k, bool down_k, bool up_k, bool right_k);
-		void collide();
+		Player(sf::Sprite s, Game *g);
 
-		int get_x();
-		int get_y();
+		void set_map(std::vector<std::vector<int>>);
+		void update(bool, bool, bool, bool);
+		bool collide(float[]);
+		int get_field_pos_x(float);
+		int get_field_pos_y(float);
 
 };
 
